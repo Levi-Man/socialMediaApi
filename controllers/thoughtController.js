@@ -72,8 +72,8 @@ module.exports = {
             }
 
             // Remove the thought's ID from the associated user's thoughts array
-            await User.findByIdAndUpdate(
-                { username: thought.username},
+            await User.findOneAndUpdate(
+                { username: thought.username },
                 { $pull: { thoughts: req.params.thoughtId } },
                 { new: true }
             );
