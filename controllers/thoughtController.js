@@ -1,5 +1,6 @@
+const Thought = require('../models/Thought');
+const User = require('../models/User');
 const { ObjectId } = require('mongoose').Types;
-const { User, Thought } = require('../models');
 
 module.exports = {
     // Get all thoughts
@@ -72,7 +73,7 @@ module.exports = {
 
             // Remove the thought's ID from the associated user's thoughts array
             await User.findByIdAndUpdate(
-                thought.username,
+                { username: thought.username},
                 { $pull: { thoughts: req.params.thoughtId } },
                 { new: true }
             );
