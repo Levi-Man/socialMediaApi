@@ -1,4 +1,5 @@
 const Thought = require('../models/Thought');
+const mongoose = require('mongoose');
 
 module.exports = {
     // Create a reaction for a thought
@@ -8,7 +9,11 @@ module.exports = {
             const { reactionBody, username } = req.body;
 
             // Create a new reaction
-            const newReaction = { reactionBody, username };
+            const newReaction = {
+                _id: new mongoose.Types.ObjectId(),
+                reactionBody,
+                username
+            };
 
             // Update the thought's reactions array with the new reaction
             const updatedThought = await Thought.findByIdAndUpdate(
@@ -20,8 +25,13 @@ module.exports = {
             if (!updatedThought) {
                 return res.status(404).json({ message: 'No thought with that ID found.' });
             }
-
-            return res.status(201).json(updatedThought);
+            // const addedReaction = updatedThought.reactions.find(
+            //     reaction => reaction.reactionBody === newReaction.reactionBody &&
+            //         reaction.username === newReaction.username
+            // );
+            
+            return res.status(201).json({updatedThought, addedReaction});
+            
         } catch (err) {
             console.log(err);
             return res.status(500).json(err);
@@ -35,7 +45,7 @@ module.exports = {
 
             const updatedThought = await Thought.findByIdAndUpdate(
                 thoughtId,
-                { $pull: { reactions: { reactionId } } },
+                { $pull: { reactions: { _id: reactionId } } },
                 { new: true }
             );
 
