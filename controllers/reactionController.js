@@ -33,7 +33,6 @@ module.exports = {
         try {
             const { thoughtId, reactionId } = req.params;
 
-            // Update the thought's reactions array by removing the specified reaction
             const updatedThought = await Thought.findByIdAndUpdate(
                 thoughtId,
                 { $pull: { reactions: { reactionId } } },
