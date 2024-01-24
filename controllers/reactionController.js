@@ -25,12 +25,13 @@ module.exports = {
             if (!updatedThought) {
                 return res.status(404).json({ message: 'No thought with that ID found.' });
             }
-            // const addedReaction = updatedThought.reactions.find(
-            //     reaction => reaction.reactionBody === newReaction.reactionBody &&
-            //         reaction.username === newReaction.username
-            // );
+            const addedReaction = updatedThought.reactions.find(
+                reaction => reaction.reactionBody === newReaction.reactionBody &&
+                    reaction.username === newReaction.username
+            );
             
-            return res.status(201).json({updatedThought, addedReaction});
+            // return res.status(201).json({updatedThought});
+            return res.status(201).json({ addedReaction });
             
         } catch (err) {
             console.log(err);

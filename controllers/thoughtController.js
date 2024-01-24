@@ -53,6 +53,9 @@ module.exports = {
                 req.body,
                 { new: true }
             );
+            if (!thought) {
+                return res.status(404).json({ message: "No thought with that ID found." });
+            }
             return res.json(thought);
         } catch (err) {
             console.log(err);
